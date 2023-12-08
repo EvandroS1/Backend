@@ -7,17 +7,17 @@ const userRepository = AppDataSource.getRepository(User);
 const getUsers = (): Promise<IUser[]> => {
   return userRepository.find();
 };
-const getByIdUsers = async (userId: string) => {
+const getByCnpjUsers = async (userId: string) => {
   const existingUser = await userRepository.findOne({
-    where: { id: Number(userId) },
+    where: { cnpj: userId },
   });
   if (existingUser) {
     return existingUser;
   }
 
-  // if (!existingUser) {
-  //   return null; // Retorna null se o usuário não for encontrado
-  // }
+  if (!existingUser) {
+    return null; // Retorna null se o usuário não for encontrado
+  }
 };
 
 const postUsers = async (userData: IUser[]): Promise<User[]> => {
@@ -62,4 +62,4 @@ const deleteUsers = async (userId: string) => {
   await userRepository.delete(Number(userId));
 };
 
-export default { getUsers, postUsers, updateUsers, deleteUsers, getByIdUsers };
+export default { getUsers, postUsers, updateUsers, deleteUsers, getByCnpjUsers };

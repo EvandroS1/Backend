@@ -7,6 +7,6 @@ routers.use('/users', userRouter);
 
 routers.use('/users/:id', userRouter);
 
-routers.use('/users/getById/:id', userRouter);
+routers.use('/users/getByCnpj/:id', userRouter);
 
 export default routers;
