@@ -21,11 +21,11 @@ userRouter.get(
       const userCnpj = req.query.cnpj as string;
       const user = await UserRepository.getByCnpjUsers(userCnpj);
 
-      if (user === undefined) {
+      if (user === null) {
         return res.status(404).json({ error: "Usuario não encontrado" });
       }
 
-      return res.status(200).json(user);
+      return res.status(200).json([user]);
     } catch (error) {
       return res.status(500).json({ error: "Erro interno no servidor" });
     }

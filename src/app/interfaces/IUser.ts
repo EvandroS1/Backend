@@ -9,5 +9,6 @@ interface IUser {
   numero: string;
   telefone: string;
   email: string;
+  complem: string;
 }
 export default IUser;
