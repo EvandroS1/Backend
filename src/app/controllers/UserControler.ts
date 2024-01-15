@@ -11,7 +11,7 @@ userRouter.get("/", async (_req: Request, res: Response): Promise<Response> => {
   const users = await UserRepository.getUsers();
   const total = users.length;
 
-  return res.status(200).json({ users, total });
+  return res.status(200).json(users);
 });
 
 userRouter.get(
@@ -25,7 +25,7 @@ userRouter.get(
         return res.status(404).json({ error: "Usuario não encontrado" });
       }
 
-      return res.status(200).json([user]);
+      return res.status(200).json(user);
     } catch (error) {
       return res.status(500).json({ error: "Erro interno no servidor" });
     }
@@ -56,6 +56,10 @@ const isValidTel = (tel: string): boolean => {
 userRouter.post("/", async (req: Request, res: Response): Promise<Response> => {
   try {
     const { cnpj, cep, email, telefone } = req.body;
+    const cnpjExist = await UserRepository.getByCnpjUsers(cnpj);
+    if (cnpjExist) {
+      return res.status(400).json({ error: "CNPJ já existe" });
+    }
 
     if (!isValidCNPJ(cnpj)) {
       return res.status(400).json({ error: "CNPJ inválido" });
